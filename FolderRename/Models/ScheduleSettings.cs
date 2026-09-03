@@ -5,7 +5,8 @@ public enum ScheduleMode { Once, Recurring }
 public sealed class ScheduleSettings
 {
     public string FolderPath { get; set; } = string.Empty;
-    public string DateFormat { get; set; } = "yyyy-MM-dd";
+    public string RenamePrefix { get; set; } = string.Empty;
+    public string DateFormat { get; set; } = "yyyyMMdd";
     public ScheduleMode Mode { get; set; } = ScheduleMode.Once;
     public DateTimeOffset ScheduledAt { get; set; } = DateTimeOffset.Now.AddMinutes(5);
     public int IntervalMinutes { get; set; } = 60;

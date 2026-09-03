@@ -9,7 +9,7 @@
                 <TextBlock Text="文件夹定时更名" Style="{ThemeResource TitleTextBlockStyle}" />
                 <TextBlock Text="按日期自动更新本地文件夹名称。计划会在应用运行期间持续监控。" Opacity="0.7" />
             </StackPanel>
-            <InfoBar IsOpen="True" Severity="Informational" Title="更名规则" Message="文件夹将改为日期格式产生的名称，例如 2026-09-03。请确保同级目录中没有同名文件夹。" />
+            <InfoBar IsOpen="True" Severity="Informational" Title="更名规则" Message="文件夹将改为“前缀 + 日期”产生的名称，例如 Reports20260903。请确保同级目录中没有同名文件夹。" />
             <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="8" Padding="24">
                 <StackPanel Spacing="16">
                     <TextBlock Text="1. 目标与命名规则" Style="{ThemeResource SubtitleTextBlockStyle}" />
@@ -17,8 +17,9 @@
                         <TextBox Header="本地文件夹路径" PlaceholderText="例如 C:\Reports\Current" Text="{Binding FolderPath, Mode=TwoWay}" />
                         <Button Grid.Column="1" Content="浏览…" VerticalAlignment="Bottom" Click="Browse_Click" />
                     </Grid>
+                    <TextBox Header="重命名前缀" PlaceholderText="默认使用所选文件夹名称" Text="{Binding RenamePrefix, Mode=TwoWay}" />
                     <ComboBox Header="按日期命名格式" SelectedValue="{Binding DateFormat, Mode=TwoWay}" SelectedValuePath="Tag">
-                        <ComboBoxItem Content="2026-09-03（推荐）" Tag="yyyy-MM-dd" /><ComboBoxItem Content="20260903" Tag="yyyyMMdd" /><ComboBoxItem Content="2026年09月03日" Tag="yyyy年MM月dd日" />
+                        <ComboBoxItem Content="20260903（推荐）" Tag="yyyyMMdd" /><ComboBoxItem Content="2026-09-03" Tag="yyyy-MM-dd" /><ComboBoxItem Content="2026年09月03日" Tag="yyyy年MM月dd日" />
                     </ComboBox>
                 </StackPanel>
             </Border>

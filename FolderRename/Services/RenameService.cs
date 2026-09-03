@@ -12,9 +12,12 @@ public sealed class RenameService
 
         var source = new DirectoryInfo(settings.FolderPath);
         var parent = source.Parent ?? throw new InvalidOperationException("不能重命名磁盘根目录。");
+        var prefix = string.IsNullOrWhiteSpace(settings.RenamePrefix) ? source.Name : settings.RenamePrefix.Trim();
         string desiredName;
         try { desiredName = DateTime.Now.ToString(settings.DateFormat); }
         catch (FormatException ex) { throw new InvalidOperationException("日期格式无效。", ex); }
+
+        desiredName = $"{prefix}{desiredName}";
 
         if (string.Equals(source.Name, desiredName, StringComparison.OrdinalIgnoreCase))
             return Task.FromResult(source.FullName);

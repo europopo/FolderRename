@@ -21,7 +21,12 @@ public sealed partial class SchedulerPage : Page
     private async void Browse_Click(object sender, RoutedEventArgs e)
     {
         var path = await FolderPickerHelper.PickAsync(MainWindow.Current);
-        if (path is not null) _viewModel.FolderPath = path;
+        if (path is not null)
+        {
+            _viewModel.FolderPath = path;
+            if (string.IsNullOrWhiteSpace(_viewModel.RenamePrefix))
+                _viewModel.RenamePrefix = Path.GetFileName(Path.TrimEndingDirectorySeparator(path));
+        }
     }
 
     private async void Save_Click(object sender, RoutedEventArgs e) => await _viewModel.SaveAsync();

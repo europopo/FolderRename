@@ -12,7 +12,8 @@ public partial class SchedulerViewModel : ObservableObject
     private readonly LogService _logs;
 
     [ObservableProperty] private string folderPath = string.Empty;
-    [ObservableProperty] private string dateFormat = "yyyy-MM-dd";
+    [ObservableProperty] private string renamePrefix = string.Empty;
+    [ObservableProperty] private string dateFormat = "yyyyMMdd";
     [ObservableProperty] private ScheduleMode mode;
     [ObservableProperty] private DateTimeOffset scheduledAt;
     [ObservableProperty] private int intervalMinutes;
@@ -31,7 +32,13 @@ public partial class SchedulerViewModel : ObservableObject
 
     public async Task SaveAsync()
     {
-        var value = new ScheduleSettings { FolderPath = FolderPath.Trim(), DateFormat = DateFormat.Trim(), Mode = Mode, ScheduledAt = ScheduledAt, IntervalMinutes = Math.Max(1, IntervalMinutes), RetryDelaySeconds = Math.Max(1, RetryDelaySeconds), MaxRetries = Math.Max(0, MaxRetries), IsEnabled = IsEnabled, LastRunAt = _settings.Current.LastRunAt };
+        var folderPath = FolderPath.Trim();
+        var prefix = RenamePrefix.Trim();
+        if (string.IsNullOrEmpty(prefix) && !string.IsNullOrEmpty(folderPath))
+            prefix = Path.GetFileName(Path.TrimEndingDirectorySeparator(folderPath));
+
+        var value = new ScheduleSettings { FolderPath = folderPath, RenamePrefix = prefix, DateFormat = DateFormat.Trim(), Mode = Mode, ScheduledAt = ScheduledAt, IntervalMinutes = Math.Max(1, IntervalMinutes), RetryDelaySeconds = Math.Max(1, RetryDelaySeconds), MaxRetries = Math.Max(0, MaxRetries), IsEnabled = IsEnabled, LastRunAt = _settings.Current.LastRunAt };
+        RenamePrefix = prefix;
         await _settings.SaveAsync(value);
         StatusText = IsEnabled ? "计划已保存并启用" : "计划已保存（未启用）";
         await _logs.WriteAsync(LogLevel.Information, StatusText);
@@ -48,7 +55,7 @@ public partial class SchedulerViewModel : ObservableObject
 
     private void Load(ScheduleSettings value)
     {
-        FolderPath = value.FolderPath; DateFormat = value.DateFormat; Mode = value.Mode; ScheduledAt = value.ScheduledAt;
+        FolderPath = value.FolderPath; RenamePrefix = value.RenamePrefix; DateFormat = value.DateFormat; Mode = value.Mode; ScheduledAt = value.ScheduledAt;
         IntervalMinutes = value.IntervalMinutes; RetryDelaySeconds = value.RetryDelaySeconds; MaxRetries = value.MaxRetries; IsEnabled = value.IsEnabled;
         StatusText = IsEnabled ? "计划正在后台监控" : "尚未启用计划";
     }
