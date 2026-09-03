@@ -3,5 +3,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Folder Rename">
-    <Frame x:Name="ContentFrame" />
+    <NavigationView x:Name="RootNavigation" PaneDisplayMode="Left" IsBackButtonVisible="Collapsed">
+        <NavigationView.MenuItems>
+            <NavigationViewItem Content="Setting" Icon="Calendar" Tag="schedule" IsSelected="True" />
+            <NavigationViewItem Content="logging" Icon="Document" Tag="logs" />
+        </NavigationView.MenuItems>
+        <Frame x:Name="ContentFrame" />
+    </NavigationView>
 </Window>

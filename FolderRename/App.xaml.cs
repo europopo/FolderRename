@@ -1,5 +1,6 @@
 using FolderRename.Services;
 using Microsoft.UI.Xaml;
+using System.Diagnostics;
 
 namespace FolderRename;
 

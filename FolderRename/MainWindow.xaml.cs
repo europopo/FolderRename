@@ -18,6 +18,7 @@ public sealed partial class MainWindow : Window
             CrashLogger.Write("MainWindow XAML loaded");
 
             Current = this;
+            RootNavigation.SelectionChanged += Navigation_SelectionChanged;
             ContentFrame.Navigate(typeof(SchedulerPage));
             CrashLogger.Write("SchedulerPage navigation requested");
         }
