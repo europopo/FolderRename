@@ -6,8 +6,16 @@
     Title="Folder Rename">
     <NavigationView x:Name="RootNavigation" PaneDisplayMode="Left" IsBackButtonVisible="Collapsed">
         <NavigationView.MenuItems>
-            <NavigationViewItem Content="计划设置" Icon="Calendar" Tag="schedule" IsSelected="True" />
-            <NavigationViewItem Content="执行日志" Icon="Document" Tag="logs" />
+            <NavigationViewItem Content="计划设置" Tag="schedule" IsSelected="True">
+                <NavigationViewItem.Icon>
+                    <SymbolIcon Symbol="Calendar" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="执行日志" Tag="logs">
+                <NavigationViewItem.Icon>
+                    <SymbolIcon Symbol="Document" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
         </NavigationView.MenuItems>
         <Frame x:Name="ContentFrame" />
     </NavigationView>
