@@ -26,3 +26,13 @@ dotnet publish FolderRename/FolderRename.csproj -c Release -r win-x64
 ```
 
 请在 Visual Studio 的“配置管理器”中选择与电脑一致的 `x64` 或 `ARM64` 平台；`AnyCPU` 不应用于运行 WinUI 3 应用。若构建阶段仍报告 `GetLatestMSVCVersion` 并引用不存在的 `VC\Tools\MSVC` 路径，请使用 Visual Studio Installer 的“修复”功能或安装 **Desktop development with C++** 工作负载。这是机器的 Visual Studio 安装路径/组件问题。
+
+## 发布可运行版本
+
+请使用项目内的 **FolderProfile** 发布配置（`Release | x64`、`win-x64`、独立），或执行：
+
+```powershell
+dotnet publish FolderRename/FolderRename.csproj -c Release -r win-x64 --self-contained true -p:WindowsAppSDKSelfContained=true -p:PublishSingleFile=false -o .\publish
+```
+
+运行时请保留并分发整个 `publish` 目录，**不要只复制 `FolderRename.exe`**。WinUI 3 自包含应用还需要同目录的 `.dll`、Windows App SDK 原生文件及运行时配置文件；单独启动被移动/复制出来的 exe 会无法加载。若在完整发布目录仍不能启动，请在目标机器安装 [Microsoft Visual C++ 2015–2022 Redistributable (x64)](https://aka.ms/vs/17/release/vc_redist.x64.exe)，然后再次运行。
