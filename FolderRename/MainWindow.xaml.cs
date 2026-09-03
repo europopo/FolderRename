@@ -1,3 +1,4 @@
+using FolderRename.Services;
 using FolderRename.Views;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -7,14 +8,24 @@ namespace FolderRename;
 public sealed partial class MainWindow : Window
 {
     public static MainWindow Current { get; private set; } = null!;
+
     public MainWindow()
     {
-        InitializeComponent();
-        Current = this;
-        // Attach after InitializeComponent: the initially selected menu item can
-        // raise SelectionChanged while XAML is still creating ContentFrame.
-        RootNavigation.SelectionChanged += Navigation_SelectionChanged;
-        ContentFrame.Navigate(typeof(SchedulerPage));
+        try
+        {
+            CrashLogger.Write("MainWindow constructor entered");
+            InitializeComponent();
+            CrashLogger.Write("MainWindow XAML loaded");
+
+            Current = this;
+            ContentFrame.Navigate(typeof(SchedulerPage));
+            CrashLogger.Write("SchedulerPage navigation requested");
+        }
+        catch (Exception exception)
+        {
+            CrashLogger.Write("MainWindow constructor failed", exception);
+            throw;
+        }
     }
 
     private void Navigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
