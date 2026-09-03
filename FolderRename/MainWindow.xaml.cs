@@ -11,12 +11,15 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
         Current = this;
+        // Attach after InitializeComponent: the initially selected menu item can
+        // raise SelectionChanged while XAML is still creating ContentFrame.
+        RootNavigation.SelectionChanged += Navigation_SelectionChanged;
         ContentFrame.Navigate(typeof(SchedulerPage));
     }
 
     private void Navigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
     {
-        if (args.SelectedItem is not NavigationViewItem item) return;
+        if (ContentFrame is null || args.SelectedItem is not NavigationViewItem item) return;
         ContentFrame.Navigate(item.Tag?.ToString() == "logs" ? typeof(LogPage) : typeof(SchedulerPage));
     }
 }
