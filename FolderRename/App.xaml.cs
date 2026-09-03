@@ -7,7 +7,7 @@ namespace FolderRename;
 public partial class App : Application
 {
     public static AppServices Services { get; } = new();
-    private Window? _window;
+    private MainWindow? _window;
 
     public App()
     {
@@ -34,7 +34,7 @@ public partial class App : Application
         }
     }
 
-    private void App_UnhandledException(object sender, UnhandledExceptionEventArgs args)
+    private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs args)
     {
         Debug.WriteLine($"FolderRename unhandled exception: {args.Exception}");
         args.Handled = true;
