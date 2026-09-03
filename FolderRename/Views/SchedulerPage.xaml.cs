@@ -26,10 +26,10 @@ public sealed partial class SchedulerPage : Page
 
     private async void Save_Click(object sender, RoutedEventArgs e) => await _viewModel.SaveAsync();
 
-    private void RunDatePicker_DateChanged(DatePicker sender, DatePickerValueChangedEventArgs args)
+    private void RunDatePicker_DateChanged(object sender, DatePickerValueChangedEventArgs args)
         => _viewModel.ScheduledAt = new DateTimeOffset(args.NewDate.Date + RunTimePicker.Time, TimeZoneInfo.Local.GetUtcOffset(args.NewDate.Date));
 
-    private void RunTimePicker_TimeChanged(TimePicker sender, TimePickerValueChangedEventArgs args)
+    private void RunTimePicker_TimeChanged(object sender, TimePickerValueChangedEventArgs args)
     {
         var date = RunDatePicker.Date.Date;
         _viewModel.ScheduledAt = new DateTimeOffset(date + args.NewTime, TimeZoneInfo.Local.GetUtcOffset(date));

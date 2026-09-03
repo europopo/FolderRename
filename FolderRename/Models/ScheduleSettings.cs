@@ -18,6 +18,12 @@ public sealed class ScheduleSettings
 public sealed class LogEntry
 {
     public DateTimeOffset Timestamp { get; set; } = DateTimeOffset.Now;
+    /// <summary>
+    /// WinUI 3's Binding markup does not support WPF's StringFormat property.
+    /// Keep presentation formatting on the model so both the UI and future log
+    /// exporters can use the same stable, local-time representation.
+    /// </summary>
+    public string TimestampDisplay => Timestamp.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss");
     public LogLevel Level { get; set; }
     public string Message { get; set; } = string.Empty;
 }

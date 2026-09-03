@@ -13,8 +13,16 @@
 
 ## Build
 
-需要 Windows 10 1809+、.NET 8 SDK 和 Visual Studio 的 Windows App SDK/WinUI 工作负载：
+需要 Windows 10 1809+、.NET 8 SDK 和 Visual Studio 的 **.NET desktop development** 与 **Windows application development** 工作负载：
 
 ```powershell
 dotnet build FolderRename/FolderRename.csproj
 ```
+
+应用的普通构建不再固定运行时标识（RID），因此不应要求 Visual Studio 的 C++/MSVC 工具集。若要创建特定架构的发布包，请在发布时显式指定 RID，例如：
+
+```powershell
+dotnet publish FolderRename/FolderRename.csproj -c Release -r win-x64
+```
+
+如果现有 Visual Studio 仍在构建时报告 `GetLatestMSVCVersion` 并引用不存在的 `VC\Tools\MSVC` 路径，请使用 Visual Studio Installer 的“修复”功能或安装 **Desktop development with C++** 工作负载；这是该机器的 Visual Studio 安装路径/组件问题，而不是应用运行时所需组件。

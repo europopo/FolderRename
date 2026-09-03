@@ -10,7 +10,7 @@
         </Grid>
         <ListView Grid.Row="1" ItemsSource="{Binding}" SelectionMode="None">
             <ListView.ItemTemplate><DataTemplate><Grid Padding="12" ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="150"/><ColumnDefinition Width="80"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Timestamp, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Opacity="0.7" /><TextBlock Grid.Column="1" Text="{Binding Level}" /><TextBlock Grid.Column="2" Text="{Binding Message}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding TimestampDisplay}" Opacity="0.7" /><TextBlock Grid.Column="1" Text="{Binding Level}" /><TextBlock Grid.Column="2" Text="{Binding Message}" TextWrapping="Wrap" />
             </Grid></DataTemplate></ListView.ItemTemplate>
         </ListView>
     </Grid>
