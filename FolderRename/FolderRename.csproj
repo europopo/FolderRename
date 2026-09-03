@@ -5,15 +5,17 @@
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>FolderRename</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <!--
-      Keep F5/build architecture-neutral. A RuntimeIdentifiers list makes the
-      Windows App SDK invoke its native self-contained packaging targets during
-      every design-time build. Besides making F5 needlessly slow, those targets
-      require a locally installed MSVC toolset and can fail when Visual Studio
-      is installed in a different edition/path. Choose a RID only when
-      publishing, for example: dotnet publish -r win-x64.
-    -->
     <Platforms>AnyCPU;x64;ARM64</Platforms>
+    <!--
+      This is an unpackaged desktop application. Deploy the Windows App SDK
+      beside it instead of requiring the matching Windows App Runtime framework
+      package to already be registered on each development machine. Without
+      this, Microsoft.UI.Xaml.Application.Start fails with REGDB_E_CLASSNOTREG.
+    -->
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <RuntimeIdentifier Condition="'$(Platform)' == 'x64'">win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(Platform)' == 'ARM64'">win-arm64</RuntimeIdentifier>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWinUI>true</UseWinUI>
