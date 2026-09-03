@@ -1,6 +1,5 @@
 using FolderRename.Services;
 using Microsoft.UI.Xaml;
-using System.Diagnostics;
 
 namespace FolderRename;
 
@@ -11,33 +10,51 @@ public partial class App : Application
 
     public App()
     {
-        InitializeComponent();
-        UnhandledException += App_UnhandledException;
+        CrashLogger.Write("Application process started");
+
+        try
+        {
+            InitializeComponent();
+            UnhandledException += App_UnhandledException;
+        }
+        catch (Exception exception)
+        {
+            CrashLogger.Write("App constructor failed", exception);
+            throw;
+        }
     }
 
     protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
+        CrashLogger.Write("OnLaunched entered");
+
         try
         {
             await Services.InitializeAsync();
+            CrashLogger.Write("Services initialized");
         }
         catch (Exception exception)
         {
-            // A malformed local JSON file or an inaccessible AppData folder must
-            // not prevent the user from reaching the application window.
-            Debug.WriteLine($"FolderRename initialization failed: {exception}");
+            CrashLogger.Write("Service initialization failed", exception);
         }
-        finally
+
+        try
         {
             _window = new MainWindow();
+            CrashLogger.Write("MainWindow created");
             _window.Activate();
+            CrashLogger.Write("MainWindow activated");
+        }
+        catch (Exception exception)
+        {
+            CrashLogger.Write("MainWindow startup failed", exception);
+            throw;
         }
     }
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs args)
     {
-        Debug.WriteLine($"FolderRename unhandled exception: {args.Exception}");
-        args.Handled = true;
-        _window?.ShowError(args.Exception.Message);
+        CrashLogger.Write("WinUI unhandled exception", args.Exception);
+        args.Handled = false;
     }
 }
