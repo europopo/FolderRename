@@ -25,6 +25,7 @@ public partial class SchedulerViewModel : ObservableObject
     public Array ScheduleModes { get; } = Enum.GetValues(typeof(ScheduleMode));
     public IReadOnlyList<RecurrenceOption> RecurrenceOptions { get; } =
     [
+        new(RecurrenceType.Daily, "每天（同一时间）"),
         new(RecurrenceType.Weekly, "每周（同一星期与时间）"),
         new(RecurrenceType.Monthly, "每月（同一日期与时间）"),
         new(RecurrenceType.Yearly, "每年（同一月日与时间）")

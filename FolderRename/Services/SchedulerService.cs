@@ -79,6 +79,9 @@ public sealed class SchedulerService
 
         switch (settings.Recurrence)
         {
+            case RecurrenceType.Daily:
+                next = last.Date.AddDays(1).Add(anchor.TimeOfDay);
+                break;
             case RecurrenceType.Weekly:
                 var daysUntil = ((int)anchor.DayOfWeek - (int)last.DayOfWeek + 7) % 7;
                 if (daysUntil == 0) daysUntil = 7;

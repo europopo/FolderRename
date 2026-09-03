@@ -26,12 +26,29 @@
             <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="8" Padding="24">
                 <StackPanel Spacing="16">
                     <TextBlock Text="2. 执行时间" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ComboBox Header="计划类型" ItemsSource="{Binding ScheduleModes}" SelectedItem="{Binding Mode, Mode=TwoWay}" />
-                    <Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-                        <DatePicker x:Name="RunDatePicker" Header="执行日期（每周/每月/每年以此日期为准）" DateChanged="RunDatePicker_DateChanged" />
-                        <TimePicker x:Name="RunTimePicker" Grid.Column="1" Header="执行时间" TimeChanged="RunTimePicker_TimeChanged" />
-                    </Grid>
-                    <ComboBox Header="周期类型（仅周期计划）" ItemsSource="{Binding RecurrenceOptions}" SelectedItem="{Binding SelectedRecurrence, Mode=TwoWay}" DisplayMemberPath="DisplayName" />
+                    <ComboBox x:Name="ModeSelector" Header="计划类型" ItemsSource="{Binding ScheduleModes}" SelectedItem="{Binding Mode, Mode=TwoWay}" SelectionChanged="ModeSelector_SelectionChanged" />
+                    <StackPanel x:Name="OnceSchedulePanel" Spacing="12">
+                        <TextBlock Text="一次执行时间" Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                        <Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                            <DatePicker x:Name="RunDatePicker" Header="执行日期" DateChanged="RunDatePicker_DateChanged" />
+                            <TimePicker x:Name="RunTimePicker" Grid.Column="1" Header="执行时间" TimeChanged="RunTimePicker_TimeChanged" />
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel x:Name="RecurringSchedulePanel" Spacing="12" Visibility="Collapsed">
+                        <TextBlock Text="周期执行时间" Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                        <RadioButtons x:Name="RecurrenceButtons" Header="重复频率" SelectionChanged="RecurrenceButtons_SelectionChanged">
+                            <x:String>每天</x:String><x:String>每周</x:String><x:String>每月</x:String><x:String>每年</x:String>
+                        </RadioButtons>
+                        <TimePicker x:Name="RecurringTimePicker" Header="执行时间" TimeChanged="RecurringTimePicker_TimeChanged" />
+                        <ComboBox x:Name="WeekdaySelector" Header="星期（每周）" SelectionChanged="WeekdaySelector_SelectionChanged" Visibility="Collapsed">
+                            <x:String>星期日</x:String><x:String>星期一</x:String><x:String>星期二</x:String><x:String>星期三</x:String><x:String>星期四</x:String><x:String>星期五</x:String><x:String>星期六</x:String>
+                        </ComboBox>
+                        <NumberBox x:Name="MonthDayBox" Header="日期（每月）" Minimum="1" Maximum="31" SpinButtonPlacementMode="Compact" ValueChanged="MonthDayBox_ValueChanged" Visibility="Collapsed" />
+                        <Grid x:Name="YearDatePanel" ColumnSpacing="16" Visibility="Collapsed"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                            <ComboBox x:Name="MonthSelector" Header="月份（每年）" SelectionChanged="MonthSelector_SelectionChanged"><x:String>1 月</x:String><x:String>2 月</x:String><x:String>3 月</x:String><x:String>4 月</x:String><x:String>5 月</x:String><x:String>6 月</x:String><x:String>7 月</x:String><x:String>8 月</x:String><x:String>9 月</x:String><x:String>10 月</x:String><x:String>11 月</x:String><x:String>12 月</x:String></ComboBox>
+                            <NumberBox x:Name="YearDayBox" Grid.Column="1" Header="日期" Minimum="1" Maximum="31" SpinButtonPlacementMode="Compact" ValueChanged="YearDayBox_ValueChanged" />
+                        </Grid>
+                    </StackPanel>
                 </StackPanel>
             </Border>
             <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="8" Padding="24">

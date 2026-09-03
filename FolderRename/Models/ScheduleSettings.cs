@@ -1,7 +1,7 @@
 namespace FolderRename.Models;
 
 public enum ScheduleMode { Once, Recurring }
-public enum RecurrenceType { Weekly, Monthly, Yearly }
+public enum RecurrenceType { Daily, Weekly, Monthly, Yearly }
 
 public sealed class ScheduleSettings
 {
