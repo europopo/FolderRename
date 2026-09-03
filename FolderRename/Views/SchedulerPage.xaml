@@ -28,10 +28,10 @@
                     <TextBlock Text="2. 执行时间" Style="{ThemeResource SubtitleTextBlockStyle}" />
                     <ComboBox Header="计划类型" ItemsSource="{Binding ScheduleModes}" SelectedItem="{Binding Mode, Mode=TwoWay}" />
                     <Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-                        <DatePicker x:Name="RunDatePicker" Header="首次执行日期" DateChanged="RunDatePicker_DateChanged" />
-                        <TimePicker x:Name="RunTimePicker" Grid.Column="1" Header="首次执行时间" TimeChanged="RunTimePicker_TimeChanged" />
+                        <DatePicker x:Name="RunDatePicker" Header="执行日期（每周/每月/每年以此日期为准）" DateChanged="RunDatePicker_DateChanged" />
+                        <TimePicker x:Name="RunTimePicker" Grid.Column="1" Header="执行时间" TimeChanged="RunTimePicker_TimeChanged" />
                     </Grid>
-                    <NumberBox Header="周期执行间隔（分钟，仅周期计划）" Value="{Binding IntervalMinutes, Mode=TwoWay}" Minimum="1" SpinButtonPlacementMode="Compact" />
+                    <ComboBox Header="周期类型（仅周期计划）" ItemsSource="{Binding RecurrenceOptions}" SelectedItem="{Binding SelectedRecurrence, Mode=TwoWay}" DisplayMemberPath="DisplayName" />
                 </StackPanel>
             </Border>
             <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="8" Padding="24">

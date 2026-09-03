@@ -65,6 +65,37 @@ public sealed class SchedulerService
     {
         var now = DateTimeOffset.Now;
         if (settings.Mode == ScheduleMode.Once) return !settings.LastRunAt.HasValue && now >= settings.ScheduledAt;
-        return now >= settings.ScheduledAt && (!settings.LastRunAt.HasValue || now - settings.LastRunAt >= TimeSpan.FromMinutes(Math.Max(1, settings.IntervalMinutes)));
+        if (!settings.LastRunAt.HasValue) return now >= settings.ScheduledAt;
+
+        var nextRun = GetNextRecurringRun(settings.LastRunAt.Value, settings);
+        return now >= nextRun;
+    }
+
+    private static DateTimeOffset GetNextRecurringRun(DateTimeOffset lastRun, ScheduleSettings settings)
+    {
+        var anchor = settings.ScheduledAt.LocalDateTime;
+        var last = lastRun.LocalDateTime;
+        DateTime next;
+
+        switch (settings.Recurrence)
+        {
+            case RecurrenceType.Weekly:
+                var daysUntil = ((int)anchor.DayOfWeek - (int)last.DayOfWeek + 7) % 7;
+                if (daysUntil == 0) daysUntil = 7;
+                next = last.Date.AddDays(daysUntil).Add(anchor.TimeOfDay);
+                break;
+            case RecurrenceType.Monthly:
+                var nextMonth = new DateTime(last.Year, last.Month, 1).AddMonths(1);
+                next = nextMonth.AddDays(Math.Min(anchor.Day, DateTime.DaysInMonth(nextMonth.Year, nextMonth.Month)) - 1).Add(anchor.TimeOfDay);
+                break;
+            case RecurrenceType.Yearly:
+                var year = last.Year + 1;
+                next = new DateTime(year, anchor.Month, Math.Min(anchor.Day, DateTime.DaysInMonth(year, anchor.Month))).Add(anchor.TimeOfDay);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+        return new DateTimeOffset(next, TimeZoneInfo.Local.GetUtcOffset(next));
     }
 }

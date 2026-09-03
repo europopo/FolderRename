@@ -1,6 +1,7 @@
 namespace FolderRename.Models;
 
 public enum ScheduleMode { Once, Recurring }
+public enum RecurrenceType { Weekly, Monthly, Yearly }
 
 public sealed class ScheduleSettings
 {
@@ -8,8 +9,8 @@ public sealed class ScheduleSettings
     public string RenamePrefix { get; set; } = string.Empty;
     public string DateFormat { get; set; } = "yyyyMMdd";
     public ScheduleMode Mode { get; set; } = ScheduleMode.Once;
+    public RecurrenceType Recurrence { get; set; } = RecurrenceType.Weekly;
     public DateTimeOffset ScheduledAt { get; set; } = DateTimeOffset.Now.AddMinutes(5);
-    public int IntervalMinutes { get; set; } = 60;
     public int RetryDelaySeconds { get; set; } = 30;
     public int MaxRetries { get; set; } = 3;
     public bool IsEnabled { get; set; }
